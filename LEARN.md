@@ -5,7 +5,7 @@ In this tutorial, we will start with what may look like a simple working smart c
 
 Since vulnerabilities and hacks form a crucial part of smart contract development I would request you to have a code editor ready and try to code along with this tutorial.
 
-# Overflow/Underflow Vulnerability
+## Overflow/Underflow Vulnerability
 
 Most Integer datatypes in Solidity (like uint256) have a fixed size and a specific upper and lower value. For example in the case of uint256, the lowest possible value is 0 (all 256 bits are 0) and the maximum possible value is 2256 - 1 (all 256 bits are 1).
 
@@ -13,7 +13,7 @@ An overflow or underflow will occur when we try to store a value greater than th
 
 In this quest, we are going to see how we can use this to our benefit to pay less than the required amount for performing an action and also how we can prevent such vulnerabilities in our smart contract.
 
-# The smart contract
+## The smart contract
 
 Take a look at the following smart contract:
 ```
@@ -53,7 +53,7 @@ Based on this, our initial goal will be to find how we can cast the maximum numb
 
 Before moving to the next sub-quest, I would request you to try and find out how you can achieve this by yourself.
 
-# A close look at the smart contract
+## A close look at the smart contract
 
 Lets take a close look at the smart contract and try to see what approach was made by the developer. 
 
@@ -67,7 +67,7 @@ Lets take a close look at the smart contract and try to see what approach was ma
 
 This contract is based on the idea that if someone wants to caste a higher vote that individual should pay an equally large amount. If it becomes possible to cast a very large amount of vote by paying a very low price then it would defeat the purpose of using this contract.
 
-# The vulnerability
+## The vulnerability
 
 There is only one line in the function vote that checks whether an individual is paying the correct amount of Eth. That line being:
 ```
@@ -101,7 +101,7 @@ Cast a vote of 115792089237316195423570985008687907853269984665640564039458 for 
 
 This will overflow the multiplication and as a result, the require statement will validate even though the amount sent is significantly low. By this attack, it is possible to cast a vote with a very high value yet by staking a very small amount.
 
-# Seeing it in action
+## Seeing it in action
 
 We are going to use Remix IDE to see a live demo for this. Copy past the code into Remix.
 
@@ -117,7 +117,7 @@ The address we are casting the vote to is not important. After entering this val
 
 Congratulations 🎉🎉🎉 ! You have successfully hacked the system 😎😎😎.
 
-# Prevention
+## Prevention
 
 Now that we understand what is the hack, it is important to secure our smart contract from such attacks. The main requirement for securing our smart contract is to ensure that in case of an overflow/underflow our smart contract should generate an error instead of wrapping the value.
 
@@ -127,7 +127,7 @@ This security feature can be achieved in either of three ways:
 2. Using SafeMath: If for some reason or other, version 0.8.0 or higher is not used then the best option is to use the SafeMath library. This library makes sure that no overflow/underflow can take place. We will see how to use SafeMath in a later subquest.
 3. Building it from scratch: We always have the option to check from scratch for every mathematical operation whether there is an overflow or not. However this is not easy nor recommendable as if not done properly, it may give rise to other forms of vulnerabilities.
 
-# Using SafeMath
+## Using SafeMath
 
 The following code is the same code as before, rewritten by using SafeMath:
 
@@ -174,7 +174,7 @@ This tells the smart contract to use SafeMath for performing various operations 
 
 - We use the .add() function for adding and .mul() function for multiplying values.
 
-# Testing updated contract
+## Testing updated contract
 
 We again deploy our contract and try to make a similar transaction. This time we get the following error while trying to make the transaction:
 
@@ -184,14 +184,14 @@ If we look closely to the error message you can see, “SafeMath: multiplication
 
 This shows that using SafeMath we can prevent overflow and also underflow of variables. You can also try the same without SafeMath and using solidity version 0.8.0 or higher. Let it be an exercise for you.
 
-# Conclusion
+## Conclusion
 
 Through this quest, we learned about the Overflow/Underflow attack, what it is and how it can be prevented in our smart contract. As an assignment I would like to assign the readers two tasks:
 
 1. Try using solidity version 0.8.0 or higher and check if the overflow attack is still valid.
 2. Try to use SafeMath in creating an ICO smart contract where a token is sold based on the amount of Eth send to the contract. 
 
-# References
+## References
 
 I considered the following references while learning and believe it will be helpful for everyone:
 
