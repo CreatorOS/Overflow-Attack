@@ -16,7 +16,7 @@ In this quest, we are going to see how we can use this to our benefit to pay les
 # The smart contract
 
 Take a look at the following smart contract:
-
+```
 pragma solidity 0.6.0;
 
 contract Vote {
@@ -44,7 +44,7 @@ contract Vote {
     }
 
 }
-
+```
 This is a small smart contract in which users are expected to vote for a candidate of choice. Votes can cast as many votes as he/she wants but an equivalent amount of Eth has to be paid for doing so. The PER_VOTE_ETH variable is used to define how much Eth must be paid for each vote. This is defined as 1 ether which means if someone wants to cast only 1 vote he/she pays 1 Eth while if someone wants to cast 3 votes to a candidate, 3Eth has to be paid. 
 
 A require statement is used that ensures that the user is passing the correct amount of eth which making the function call as needed by the number of votes he/she is casting.
@@ -70,9 +70,9 @@ This contract is based on the idea that if someone wants to caste a higher vote 
 # The vulnerability
 
 There is only one line in the function vote that checks whether an individual is paying the correct amount of Eth. That line being:
-
+``
 require(msg.value == _vote \* PER_VOTE_ETH);
-
+```
 So as a hacker, our target will be to find a loophole in this check statement. Let’s get back to the concept of overflow. If we try to store a certain value in a variable that is larger than the maximum possible value for that variable, it will cycle back to the lowest possible value. We know that both the variables _vote and PER_VOTE_ETH are of type uint256 which means their product will also be of type uint256. Similarly, the type of msg.value is also uint256. If we can somehow overflow the value of _vote\*PER_VOTE_ETH then we can pass a very high value of _vote by paying a low value.
 
 Max. value of uint256  =                    2256 - 1
@@ -130,7 +130,7 @@ This security feature can be achieved in either of three ways:
 # Using SafeMath
 
 The following code is the same code as before, rewritten by using SafeMath:
-
+```
 pragma solidity 0.6.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/solc-0.6/contracts/math/SafeMath.sol";
@@ -164,7 +164,7 @@ contract Vote {
     }
 
 }
-
+```
 Let’s understand the code:
 
 - We can import the SafeMath library in our smart contract by using the import statement with the link to the code. If we used some other framework like Truffle, HardHat, or EthBrownie we would first install the OpenZeppelin package and then import the SafeMath.sol smart contract from that package.
