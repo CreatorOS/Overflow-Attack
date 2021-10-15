@@ -130,18 +130,14 @@ This security feature can be achieved in either of three ways:
 # Using SafeMath
 
 The following code is the same code as before, rewritten by using SafeMath:
+
 ```
 pragma solidity 0.6.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/solc-0.6/contracts/math/SafeMath.sol";
 
 contract Vote {
-
-    
-
     using SafeMath for uint256;
-
-    
 
     mapping(address => uint256) public received_votes;
 
@@ -165,6 +161,8 @@ contract Vote {
 
 }
 ```
+
+
 Let’s understand the code:
 
 - We can import the SafeMath library in our smart contract by using the import statement with the link to the code. If we used some other framework like Truffle, HardHat, or EthBrownie we would first install the OpenZeppelin package and then import the SafeMath.sol smart contract from that package.
