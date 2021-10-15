@@ -70,7 +70,7 @@ This contract is based on the idea that if someone wants to caste a higher vote 
 # The vulnerability
 
 There is only one line in the function vote that checks whether an individual is paying the correct amount of Eth. That line being:
-``
+```
 require(msg.value == _vote \* PER_VOTE_ETH);
 ```
 So as a hacker, our target will be to find a loophole in this check statement. Let’s get back to the concept of overflow. If we try to store a certain value in a variable that is larger than the maximum possible value for that variable, it will cycle back to the lowest possible value. We know that both the variables _vote and PER_VOTE_ETH are of type uint256 which means their product will also be of type uint256. Similarly, the type of msg.value is also uint256. If we can somehow overflow the value of _vote\*PER_VOTE_ETH then we can pass a very high value of _vote by paying a low value.
